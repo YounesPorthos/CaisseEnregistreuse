@@ -1,0 +1,16 @@
+Dimanche 4 Décembre :
+    Creation du dossier SAE
+    Creation de la Classe model:
+        -Implementation de la fonction getModel().
+        -Implementation de la fonction getRole().
+        -Implementation de la fonction setProduit().
+        -Implementation de la fonction setClient().
+        -Implementation de la fonction setMembre().
+        -Implementation de la fonction getProduits().
+    
+    Creation de la Classe Controller_set:
+        -Implementation de la fonction action_add().
+        -Implementation de la fonction action_inscription() => Non complete voir les commentaires.
+
+    Creation de la Classe Controller_list:
+        -Implementation de la fonction action_catalogue().
