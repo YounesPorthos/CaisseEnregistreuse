@@ -1,7 +1,8 @@
 <?php
 
 use Utils\Article;
-
+use \Models\Model;
+require_once("./Models/Model.php");
 require_once("Controller.php");
     class Controller_list extends Controller{
 
@@ -24,7 +25,7 @@ require_once("Controller.php");
 
             if(isset($_GET['nom'])){
                 if(! $_SESSION['Articles']->addArticle($_GET['nom'],$_GET['id'])){
-                    echo "<script> alert('non');</script>";
+                    echo "<h1> Invalide </h1>";
                 }
             }
 

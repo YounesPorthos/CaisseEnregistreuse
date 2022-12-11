@@ -29,7 +29,7 @@ class Article
         return $this->somme;
     }
     public function estVide($cle){
-        return $this->articles[$cle]['quantite'] == 0;
+        return $this->articles[$cle]['Quantite'] == 0;
     }
 
     public function panierEstVide(){ // verification si l'on souhaite enlever un produit du panier
@@ -49,7 +49,7 @@ class Article
             else {
                 $this->panier[$nom]["Compteur"] += 1;
             }
-            $this->articles[$cle]['quantite'] -= 1;
+            $this->articles[$cle]['Quantite'] -= 1;
             $this->somme += $this->articles[$cle]['prix'];
             return true;
         }

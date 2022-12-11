@@ -1,7 +1,9 @@
-<?php 
-
+<?php
+use \Models\Model;
+use Utils\Article;
+require_once("./Models/Model.php");
  class Controller_set extends Controller{
-    
+
 
     public function action_add(){
         if(
@@ -44,13 +46,19 @@
             foreach($cle as $marqueur){
                 $info[$marqueur] = $_POST[$marqueur];
             }
+            $info['mdp'] = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
+            var_dump($info['mdp']);
             $m->setClient($info);
             $data = [
-                "Ajout" => true
+                "Role" => $m->getRole($_POST['idPer']) // accès au infos du client à ajouter
             ];
             //session à ajouter (rend sur le catalogue avec sa session)
-            $this->render("catalogue",$data);
+            session_start();
+            $_SESSION['id'] = $_POST['idPer'];
+            $_SESSION['role'] = 'Client';
+            $this->render("client",$data);
         }
+
         else{
             $data = [
                 "Ajout" => false
@@ -61,7 +69,27 @@
     }
 
     public function action_vente(){
-        
+        $m = Model::getModel();
+        if(isset($_GET['Somme'])){
+            $infoV = [];
+            $infoV['Somme'] = $_GET['Somme'];
+            if(isset($_GET['idPer'])){
+                $infoV['idPer'] = $_GET['idPer'];
+            }
+            else{
+                $infoV['idPer'] = null;
+            }
+            $m->setVente($infoV);
+            require_once("./Utils/Article.php");
+            $Ar = new Article();
+
+            $data= [
+                "Articles" => $Ar->getArticles(),
+                "Panier" => $Ar->getPanier(),
+                "Somme" => $Ar->getSomme(),
+            ];
+            $this->render("panier",$data);
+        }
     }
 
     public function action_default(){

@@ -1,6 +1,7 @@
 DROP table if exists Produits;
 DROP table if exists Personnes;
 DROP table if exists Ventes;
+DROP table if exists Client;
 
 
 CREATE table Produits(
@@ -8,7 +9,7 @@ CREATE table Produits(
     nomP Varchar(50),
     Quantite integer,
     prix float,
-    primary key (idP)
+    primary key (idProduit)
 );
 
 CREATE table Ventes(
@@ -22,14 +23,14 @@ CREATE table Ventes(
 CREATE table Client(
     idPer integer,
     pointF integer,
-    foreign key (idPer) references Personne(idPer)
+    foreign key (idPer) references Personnes(idPer)
 );
 
 CREATE table Personnes(
     idPer SERIAL,
     prenom Varchar(50),
     nom Varchar(50),
-    mdp Varchar(50),
+    mdp longText,
     RoleP Varchar(50),
     PRIMARY KEY (idPer)
 );
@@ -38,21 +39,21 @@ INSERT INTO Personnes values (
     DEFAULT,
     "Amadou",
     "Dia",
-    "MotDePasse",
+    "$2y$10$XkvJ5T.e3IjKz4AT.KSyHOtTLDOmyoVuQvjLassst8ApoBWYaCbyy",
     "Client"
 );
 INSERT INTO Personnes values (
     DEFAULT,
     "Mamadou",
     "Dia",
-    "MotDePasse",
+    "$2y$10$XkvJ5T.e3IjKz4AT.KSyHOtTLDOmyoVuQvjLassst8ApoBWYaCbyy",
     "Admin"
 );
 INSERT INTO Personnes values (
     DEFAULT,
     "Ahmed",
     "Dia",
-    "MotDePasse",
+    "$2y$10$XkvJ5T.e3IjKz4AT.KSyHOtTLDOmyoVuQvjLassst8ApoBWYaCbyy",
     "Membre"
 );
 INSERT INTO Produits values(
