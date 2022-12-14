@@ -7,7 +7,7 @@
     <li><a href="../index.php?controller=set&action=add">Ajout Article</a></li>
     <li><a href="../index.php?controller=set&action=inscription">Inscription</a></li>
     <?php if($Role == "Admin") : ?>
-        <li><a href="../index.php?controller=set&action=inscriptionMembre>">Ajout Membre</a></li>
+        <li><a href="Views/view_inscriptionMembre.php">Ajout Membre</a></li>
     <?php endif ?>
 </ul>
 

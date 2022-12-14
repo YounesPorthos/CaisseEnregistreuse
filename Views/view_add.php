@@ -7,5 +7,4 @@
     <input type="file" name="image">
     <input type="submit" value="Ajouter le Produit">
 </form>
-<p> <?= $Ajout === true ? "Ajout reussi" : "Ajout echoué" ?> </p>
 <?php require "view_end.php"?>

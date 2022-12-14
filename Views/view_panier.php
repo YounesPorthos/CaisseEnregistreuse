@@ -10,7 +10,7 @@
         <tr>
             <td> <a href="./index.php?controller=list&action=panier&prix=<?= $val['prix'] ?>&quantite=<?= $val['Quantite'] ?>&nom=<?= $val['nomP']?>&id=<?= $val['idProduit']?>"> <?= $val['nomP']?> </a></td>
             <td>
-                <?= $val['Quantite'] ?>
+                <?= $val['Quantite'] ?>>
             </td>
             <td> <?= $val['prix'] ?></td>
         </tr>
