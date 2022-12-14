@@ -8,7 +8,7 @@
     </tr>
     <?php foreach ($Articles as $cle => $val) : ?>
         <tr>
-            <td> <a href="?prix=<?= $val['prix'] ?>&quantite=<?= $val['Quantite'] ?>&nom=<?= $val['nomP']?>&id=<?= $val['idProduit']?>"> <?= $val['nomP']?> </a></td>
+            <td> <a href="./index.php?controller=list&action=panier&prix=<?= $val['prix'] ?>&quantite=<?= $val['Quantite'] ?>&nom=<?= $val['nomP']?>&id=<?= $val['idProduit']?>"> <?= $val['nomP']?> </a></td>
             <td>
                 <?= $val['Quantite'] ?>
             </td>
@@ -29,6 +29,13 @@
 <h1>SOMME</h1>
 <?= $Somme ?>
 
-<a href="../index.php?controller=set&action=vente&Somme=<?= $Somme ?>"><button>Valider</button></a>
+<a href="./index.php?controller=set&action=vente&Somme=<?= $Somme ?>&idCl=<?=$idClient?>"><button>Valider</button></a>
+
+<h1>S'identifier</h1>
+
+<form>
+    <input type="text" name="idCl" placeholder="Identifiant du client">
+    <input type="submit">
+</form>
 
 <?php require_once "view_end.php" ?>

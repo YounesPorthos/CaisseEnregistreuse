@@ -1,55 +1,62 @@
 DROP table if exists Produits;
-DROP table if exists Personnes;
+DROP table if exists Promo;
+DROP table if exists Utilisateur;
 DROP table if exists Ventes;
-DROP table if exists Client;
 
+
+/* Remplacer les serial par des int (juste pour le test)*/
 
 CREATE table Produits(
     idProduit SERIAL,
     nomP Varchar(50),
     Quantite integer,
     prix float,
+    image varchar(255),
     primary key (idProduit)
+);
+SELECT "Produits";
+CREATE table Utilisateur(
+        idU SERIAL,
+        prenom Varchar(50),
+        nom Varchar(50),
+        mdp varchar(255),
+        RoleP Varchar(50),
+        PRIMARY KEY (idU)
 );
 
 CREATE table Ventes(
     numCommande SERIAL,
     DateV date,
-    idPer integer references Personnes(idPer),
+    idU integer references Utilisateur(idU),
     prix float,
     primary key (numCommande)
 );
 
-CREATE table Client(
-    idPer integer,
+SELECT "ventes";
+CREATE table Promo(
+    idU SERIAL,
     pointF integer,
-    foreign key (idPer) references Personnes(idPer)
+    /* à definir comment se passe les promos par rapport au points de fidelité*/
+    foreign key (idU) references Utilisateur(idU)
 );
+SELECT "Promo";
 
-CREATE table Personnes(
-    idPer SERIAL,
-    prenom Varchar(50),
-    nom Varchar(50),
-    mdp longText,
-    RoleP Varchar(50),
-    PRIMARY KEY (idPer)
-);
 
-INSERT INTO Personnes values (
+INSERT INTO Utilisateur values (
     DEFAULT,
     "Amadou",
     "Dia",
     "$2y$10$XkvJ5T.e3IjKz4AT.KSyHOtTLDOmyoVuQvjLassst8ApoBWYaCbyy",
     "Client"
 );
-INSERT INTO Personnes values (
+INSERT INTO Utilisateur values (
     DEFAULT,
     "Mamadou",
     "Dia",
     "$2y$10$XkvJ5T.e3IjKz4AT.KSyHOtTLDOmyoVuQvjLassst8ApoBWYaCbyy",
     "Admin"
 );
-INSERT INTO Personnes values (
+INSERT INTO Utilisateur values (
     DEFAULT,
     "Ahmed",
     "Dia",
@@ -60,7 +67,8 @@ INSERT INTO Produits values(
     DEFAULT,
     "Oreo",
     3,
-    1.50
+    1.50,
+    "chem"
 );
 
 

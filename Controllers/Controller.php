@@ -1,6 +1,5 @@
 <?php
 
-
 abstract class Controller
 {
 
@@ -15,7 +14,6 @@ abstract class Controller
         }
     }
 
-   
     abstract public function action_default();
 
     protected function render($vue, $data = [])
