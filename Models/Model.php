@@ -23,7 +23,7 @@
         }
 
         public function getRole($id){
-            $req = $this->bd->prepare("SELECT roleP From Personnes WHERE idPer = :id");
+            $req = $this->bd->prepare("SELECT roleP From Utilisateur WHERE idU = :id");
             $req->bindValue(":id",$id);
             $req->execute();
             $tab = $req->fetch(PDO::FETCH_NUM);
@@ -31,7 +31,7 @@
         }
 
         public function setProduit($infoP){
-            $req = $this->bd->prepare("INSERT INTO produits VALUES (DEFAULT,:nomP,:quantite,:prix)");
+            $req = $this->bd->prepare("INSERT INTO produits (idProduit,nomP,quantite,prix)VALUES (DEFAULT,:nomP,:quantite,:prix)");
             $cle = ['nomP','quantite','prix'];
             foreach($cle as $marqueur){
                 $req->bindValue(':' . $marqueur, $infoP[$marqueur]);
@@ -40,9 +40,9 @@
         }
 
         public function setClient($infoC){
-            $req = $this->bd->prepare("INSERT INTO Personnes VALUES (:idPer,:prenom,:nom,:mdp,:roleP)");
+            $req = $this->bd->prepare("INSERT INTO Utilisateur VALUES (:idU,:prenom,:nom,:mdp,:roleP)");
             $infoC['roleP'] = "Client";
-            $cle = ['idPer','prenom','nom','mdp','roleP'];
+            $cle = ['idU','prenom','nom','mdp','roleP'];
             foreach($cle as $marqueur){
                 $req->bindValue(':'.$marqueur, $infoC[$marqueur]);
             }
@@ -50,17 +50,17 @@
         }
 
         public function setMembre($infoM){
-            $req = $this->bd->prepare("INSERT INTO Personne VALUES (:idPer,:prenom,:nom,:mdp,:roleP)");
+            $req = $this->bd->prepare("INSERT INTO Utilisateur VALUES (:idU,:prenom,:nom,:mdp,:roleP)");
             $infoM['roleP'] = "Membre";
-            $cle = ['idPer','prenom','nom','mdp','roleP'];
+            $cle = ['idU','prenom','nom','mdp','roleP'];
             foreach($cle as $marqueur){
                 $req->bindValue(':'.$marqueur, $infoM[$marqueur]);
             }
             $req->execute();
         }
         public function setVente($infoV){
-            $req = $this->bd->prepare('INSERT INTO Ventes VALUES (DEFAULT,now(),:idPer,:Somme)');
-            $cle = ['idPer','Somme'];
+            $req = $this->bd->prepare('INSERT INTO Ventes VALUES (DEFAULT,now(),:idU,:Somme)');
+            $cle = ['idU','Somme'];
 
             foreach ($cle as $marqueur){
                 $req->bindValue(':'.$marqueur,$infoV[$marqueur]);
@@ -76,19 +76,28 @@
         }
 
         public function inDatabase($id){
-            $req = $this->bd->prepare("SELECT roleP From Personnes WHERE idPer = :id");
+            $req = $this->bd->prepare("SELECT roleP From Utilisateur WHERE idU = :id");
             $req->bindValue(":id",$id);
             $req->execute();
             return $req->fetch(PDO::FETCH_NUM) !== false;
         }
 
         public function getPassword($id){
-            $req = $this->bd->prepare("SELECT mdp From Personnes WHERE idPer = :id");
+            $req = $this->bd->prepare("SELECT mdp From Utilisateur WHERE idU = :id");
             $req->bindValue(":id",$id);
             $req->execute();
             $tab = $req->fetch(PDO::FETCH_NUM);
             return $tab[0];
         }
+
+        public function updateQuantite($newQuant,$id){
+            $req = $this->bd->prepare("UPDATE Produit SET quantite = :newQuant WHERE id= :id");
+            $req->bindValue(":quant",$newQuant);
+            $req->bindValue(":id",$id);
+            $req->execute();
+        }
+
+
 
 
     }
