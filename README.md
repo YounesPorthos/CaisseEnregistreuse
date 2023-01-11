@@ -6,27 +6,3 @@ Caisse enregistreuse
 
 ## Roadmap
 
-### Dimanche 4 Décembre :
-
-Creation du dossier SAE
-
-Création de la classe Model:
-- Implémentation de la fonction getModel().
-- Implémentation de la fonction getRole().
-- Implémentation de la fonction setProduit().
-- Implémentation de la fonction setClient().
-- Implémentation de la fonction setMembre().
-- Implémentation de la fonction getProduits().
-
-Création de la classe Controller_set:
-- Implémentation de la fonction action_add().
-- Implémentation de la fonction action_inscription() => Non complete voir les commentaires.
-
-Création de la Classe Controller_list:
-- Implémentation de la fonction action_catalogue().
-
-### Mercredi 14 décembre
-    
-    Objectif : Changer Les sessions on cookie (fait)
-
-    Prochain Objectif : faire le routing afin de tout tester
