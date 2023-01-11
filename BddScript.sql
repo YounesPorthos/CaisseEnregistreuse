@@ -29,6 +29,7 @@ CREATE table Ventes(
     DateV date,
     idU integer references Utilisateur(idU),
     prix float,
+    qte int,
     primary key (numCommande)
 );
 

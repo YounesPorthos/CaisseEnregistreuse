@@ -3,7 +3,7 @@
 require_once "Models/Model.php";
 require_once "Controllers/Controller.php";
 
-$controllers = ["set","list","auth"];
+$controllers = ["set","list","auth","affichage"];
 $controller_default = "list";
 
 if (isset($_GET['controller']) and in_array($_GET['controller'], $controllers)) {
@@ -20,5 +20,5 @@ if (is_readable($nom_fichier)) {
     require_once $nom_fichier;
     new $nom_classe();
 } else {
-    die("Error 404: not found!a");
+    die("Error 404: not found!");
 }

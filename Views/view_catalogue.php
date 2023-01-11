@@ -1,21 +1,17 @@
 <?php require "view_begin.php"; // affichage provisoire à changer plus tard?>
 
-<h1>CATALOGUE</h1>
 
-<table>
-    <tr>
-        <th> Nom </th> <th> quantite </th> <th>prix</th>
-    </tr>
+    <link rel="stylesheet" href="Content/style/catalogue.css">
+<div id="Catalogue">
 <?php foreach($catalogue as $val) : ?>
 
-    <tr>
-        <td> <?= $val['nomP']?></td> 
-        <td> <?= $val['Quantite'] ?></td> 
-        <td> <?= $val['prix'] ?></td>
-    </tr>
-
-
+    <div class="Boite" style="background: url( <?= $val['image']?>) no-repeat center center; background-size: contain;">
+        <div class="infoBoite">
+            <span class="nomA"><?= $val['nomP']?></span>
+            <span class="prix"><?= $val['prix']?>€</span>
+        </div>
+    </div>
 
 <?php endforeach ?>
-
+</div>
 <?php require "view_end.php"?>
