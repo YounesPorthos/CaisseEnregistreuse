@@ -42,7 +42,8 @@ class Article
             if(! isset($this->panier[$nom])){
                 $tab = [
                     "nom" => $nom,
-                    "Compteur" => 1
+                    "Compteur" => 1,
+                    "id" => $cle + 1
                 ];
                 $this->panier[$nom] = $tab;
             }

@@ -1,3 +1,5 @@
-<?php
+<?php require "view_begin.php" ?>
 
-echo $Role;
+<h1>Bonjour <?= $prenom ?></h1>
+
+<?php require "view_end.php"?>

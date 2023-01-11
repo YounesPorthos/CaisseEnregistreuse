@@ -1,6 +1,6 @@
 <?php require "view_begin.php" ?>
 
-    <form action="../index.php?controller=set&action=inscription" method="post">
+    <form action="index.php?controller=set&action=inscription" method="post">
         <input type="text" name="idU" placeholder="Identifiant">
         <input type="text" name="nom" placeholder="nom">
         <input type="text" name="prenom" placeholder="prenom">
