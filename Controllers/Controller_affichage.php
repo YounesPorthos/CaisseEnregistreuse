@@ -48,7 +48,12 @@ class Controller_affichage extends Controller
 
             if($_COOKIE['Role'] == "Client"){
                 $m = Model::getModel();
-                $data = $m->getInfos($_COOKIE['id']);
+                $data = [
+                    "infoClient" => $m->getInfos($_COOKIE['id']),
+                    "points" => $m->getPoints($_COOKIE['id']),
+                    "Achats" => $m->getHistoriqueAchat($_COOKIE['id'])
+                ];
+
                 $this->render("client",$data);
             }
             elseif($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre"){
@@ -72,7 +77,16 @@ class Controller_affichage extends Controller
             }
         }
     }
-
+    public function action_panier(){
+        if(isset($_COOKIE['Role'])) {
+            if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {
+                $this->render("panier");
+            }
+        }
+        else{
+            header('Location: index.php?controller=list&action=catalogue');
+        }
+    }
     public function action_hub(){
         if(isset($_COOKIE['Role'])) {
             if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {

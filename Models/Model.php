@@ -41,11 +41,20 @@
 
         public function setClient($infoC){
             $req = $this->bd->prepare("INSERT INTO Utilisateur VALUES (:idU,:prenom,:nom,:mdp,:roleP)");
+            $req2 = $this->bd->prepare("INSERT INTO promo VALUES (:idU,0)");
             $infoC['roleP'] = "Client";
             $cle = ['idU','prenom','nom','mdp','roleP'];
             foreach($cle as $marqueur){
                 $req->bindValue(':'.$marqueur, $infoC[$marqueur]);
             }
+            $req2->bindValue(':idU',$infoC['idU']);
+            $req->execute();
+            $req2->execute();
+        }
+        public function updatePoints($id,$point){
+            $req = $this->bd->prepare("UPDATE promo SET pointF = pointF + :points WHERE idU = :id");
+            $req->bindValue(":points",$point);
+            $req->bindValue(":id",$id);
             $req->execute();
         }
 
@@ -54,6 +63,13 @@
             $req->bindValue(":id",$id);
             $req->execute();
             $tab = $req->fetch(PDO::FETCH_ASSOC);
+            return $tab;
+        }
+        public function getHistoriqueAchat($id){
+            $req = $this->bd->prepare("SELECT * From ventes WHERE idU = :id");
+            $req->bindValue(":id",$id);
+            $req->execute();
+            $tab = $req->fetchAll(PDO::FETCH_ASSOC);
             return $tab;
         }
         public function setMembre($infoM){
@@ -122,11 +138,16 @@
 
             return $req->fetchAll(PDO::FETCH_ASSOC);
 
-
-
+        }
+        public function getPoints($id){
+            $req = $this->bd->prepare("SELECT pointF From promo where idU = :id");
+            $req->bindValue(":id",$id);
+            $req->execute();
+            $tab = $req->fetch(PDO::FETCH_NUM);
+            return $tab[0];
         }
 
-        public function updateProduit($infoP,$id){ // à utiliser
+        public function updateProduit($infoP,$id){
             $req = $this->bd->prepare("UPDATE produits SET nomP = :nomP, quantite = :quantite, prix = :prix WHERE idProduit = :id");
             $cle = ['nomP','quantite','prix'];
             foreach ($cle as $marqueur){

@@ -21,11 +21,11 @@
                     <a href="index.php?controller=auth&action=deconnexion" class="deconnexion"> Deconnexion </a>
                 <?php endif ?>
                 <?php if(isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Membre') : ?>
-                    <a href="index.php?controller=affichage&action=hub" class="accueil"> accueil</a>
+                    <a href="index.php?controller=affichage&action=hub" class="accueil"> Accueil</a>
                 <?php endif ?>
 
                 <?php if(isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Admin') : ?>
-                    <a href="index.php?controller=affichage&action=hub" class="accueil"> accueil</a>
+                    <a href="index.php?controller=affichage&action=hub" class="accueil"> Accueil</a>
                 <?php endif ?>
 
                 <?php if(isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Client') : ?>
@@ -36,13 +36,3 @@
         </nav>
     </header>
 
-<?php if(isset($_COOKIE['Role'])){
-    echo $_COOKIE['Role'];
-} ?>
-
-<ul>
-
-
-
-
-</ul>

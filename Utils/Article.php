@@ -21,6 +21,7 @@ class Article
     public function getArticles(){
         return $this->articles;
     }
+
     public function getPanier(){
         return $this->panier;
     }
@@ -39,16 +40,19 @@ class Article
     public function addArticle($nom,$cle){
         $cle -=1;
         if(! $this->estVide($cle)){
-            if(! isset($this->panier[$nom])){
+            if(! isset($this->panier[$cle])){
                 $tab = [
                     "nom" => $nom,
                     "Compteur" => 1,
-                    "id" => $cle + 1
+                    "id" => $cle + 1,
+                    "prix" => $this->articles[$cle]['prix']
                 ];
-                $this->panier[$nom] = $tab;
+                $this->panier[$cle] = $tab;
             }
             else {
-                $this->panier[$nom]["Compteur"] += 1;
+                $this->panier[$cle]["Compteur"] += 1;
+                $this->panier[$cle]['prix'] += $this->articles[$cle]['prix'];
+
             }
             $this->articles[$cle]['Quantite'] -= 1;
             $this->somme += $this->articles[$cle]['prix'];

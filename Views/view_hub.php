@@ -1,4 +1,4 @@
-<?php require "view_begin.php"; ?>
+<?php require "view_beginVertical.php"; ?>
 
 <ul>
     <h1>HUB MEMBRE BDE</h1>

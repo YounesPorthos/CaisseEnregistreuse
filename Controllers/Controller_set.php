@@ -131,14 +131,15 @@ require_once("./Utils/Article.php");
             // si nous avons un idClient on l'ajoute dans les infos de vente sinon on met "null"
             if(isset($_GET['idCl'])){
                 $infoV['idU'] = $_GET['idCl'];
+                $m->updatePoints($_GET['idCl'], round($_GET['Somme'] * 2));
             }
             $tabArticle = $_SESSION['Articles']->getPanier();
-            $somme = 0;
+            $total = 0;
             foreach ($tabArticle as $artPan){
                 $m->updateQuantite($artPan['Compteur'],$artPan['id']);
-                $somme += $artPan['Compteur'];
+                $total += $artPan['Compteur'];
             }
-            $infoV['Qte'] = $somme;
+            $infoV['Qte'] = $total;
             // ajout de la vente dans la base de données
             $m->setVente($infoV);
 
