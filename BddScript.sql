@@ -37,7 +37,6 @@ SELECT "ventes";
 CREATE table Promo(
     idU SERIAL,
     pointF integer,
-    /* à definir comment se passe les promos par rapport au points de fidelité*/
     foreign key (idU) references Utilisateur(idU)
 );
 SELECT "Promo";
