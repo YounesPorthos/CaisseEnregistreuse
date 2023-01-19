@@ -17,55 +17,61 @@ require_once("Controller.php");
         public function action_panier(){
             require_once("./Utils/Article.php");
             session_start();
-            //Si il n'y a pas une instance d'article ou qu'on ait appuyé sur le bouton reset on créer une instance d'article stocké dans une session
-            if(! isset($_SESSION['Articles']) or isset($_GET['reset'])){
-
-                $art = new Article();
-                $_SESSION['Articles'] = new Article();
-                $_SESSION['idCl'] = -1;
-            }
-
-            $tab = $_SESSION['Articles']->getArticles();
-
-            if(isset($_GET['nom'])){
-                // si un article a été selectionné on vérifie si il est possible de l'ajouter dans le panier
-                if(! $_SESSION['Articles']->addArticle($_GET['nom'],$_GET['id'])){
-                    header('Location: index.php?controller=list&action=panier');
-                }
-            }
-            // si l'identifiant entrée est valide on l'ajoute dans une session
-            if(isset($_POST['idCl'])){
-                $m = Model::getModel();
-                if($m->inDatabase($_POST['idCl'])){
-                    $_SESSION['idCl'] = $_POST['idCl'];
+            if(isset($_COOKIE['Role'])) {
+                if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {
+                    //Si il n'y a pas une instance d'article ou qu'on ait appuyé sur le bouton reset on créer une instance d'article stocké dans une session
+                    if(! isset($_SESSION['Articles']) or isset($_GET['reset'])){
+                        $art = new Article();
+                        $_SESSION['Articles'] = new Article();
+                        $_SESSION['idCl'] = -1;
+                    }
+                    $tab = $_SESSION['Articles']->getArticles();
+                    if(isset($_GET['nom'])){
+                        // si un article a été selectionné on vérifie si il est possible de l'ajouter dans le panier
+                        if(! $_SESSION['Articles']->addArticle($_GET['nom'],$_GET['id'])){
+                            header('Location: index.php?controller=list&action=panier');
+                        }
+                    }
+                    // si l'identifiant entrée est valide on l'ajoute dans une session
+                    if(isset($_POST['idCl'])){
+                        $m = Model::getModel();
+                        if($m->inDatabase($_POST['idCl'])){
+                            $_SESSION['idCl'] = $_POST['idCl'];
+                        }
+                        else{
+                            $_SESSION['idCl'] = -1;
+                        }
+                    }
+                    // stocke dans les données les valeurs mise à jour
+                    $data= [
+                        "Articles" => $tab,
+                        "Panier" => $_SESSION['Articles']->getPanier(),
+                        "Somme" => $_SESSION['Articles']->getSomme(),
+                        "idClient" => $_SESSION['idCl']
+                    ];
+                    $this->render("panier",$data);
                 }
                 else{
-                    $_SESSION['idCl'] = -1;
+                    header('Location: index.php?controller=list&action=catalogue');
                 }
             }
-
-
-            // stocke dans les données les valeurs mise à jour
-            $data= [
-                "Articles" => $tab,
-                "Panier" => $_SESSION['Articles']->getPanier(),
-                "Somme" => $_SESSION['Articles']->getSomme(),
-                "idClient" => $_SESSION['idCl']
-                ];
-
-            $this->render("panier",$data);
+            else{
+                header('Location: index.php?controller=list&action=catalogue');
+            }
 
 
         }
         public function action_informations()
         {
-            $m = Model::getModel();
-            $data = ["tab" => $m->getInfoVentesMensuel()];
-            $this->render("informations", $data);
             if (isset($_COOKIE['Role'])) {
                 if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {
                     $m = Model::getModel();
-                    $data = ["tab" => $m->getInfoVentesMensuel()];
+                    $data = [
+                        "informations" => $m->getInfoVentesMensuel(),
+                        "Stock" => $m->getStock(),
+                        "Bilan" => $m->getStockVendu()
+                    ];
+
                     $this->render("informations", $data);
                 }
             }

@@ -7,6 +7,10 @@ body{
     color: #1498FD;
     text-decoration: underline;
 }
+.droite{
+    display: flex;
+    flex-direction: column;
+}
 .bienvenue{
     display: flex;
     flex-direction: column;
@@ -59,6 +63,11 @@ form{
 
     img{
         width: 0;
+    }
+    input{
+        width: 70%;
+        align-self: center;
+        font-size: medium;
     }
     .corp{
         flex-direction: column;

@@ -21,7 +21,7 @@ class Controller_affichage extends Controller
                 header('Location: index.php?controller=list&action=catalogue');
             }
             elseif($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre"){
-                $this->render("hub");
+                header('Location: index.php?controller=affichage&action=hub');
             }
         }
         else{
@@ -45,7 +45,6 @@ class Controller_affichage extends Controller
 
     public function action_client(){
         if(isset($_COOKIE['id'])){
-
             if($_COOKIE['Role'] == "Client"){
                 $m = Model::getModel();
                 $data = [
@@ -77,16 +76,6 @@ class Controller_affichage extends Controller
             }
         }
     }
-    public function action_panier(){
-        if(isset($_COOKIE['Role'])) {
-            if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {
-                $this->render("panier");
-            }
-        }
-        else{
-            header('Location: index.php?controller=list&action=catalogue');
-        }
-    }
     public function action_hub(){
         if(isset($_COOKIE['Role'])) {
             if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {
@@ -99,7 +88,32 @@ class Controller_affichage extends Controller
     }
 
 
+    public function action_modification(){
+        if(isset($_COOKIE['Role'])) {
+            if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {
+                $m = Model::getModel();
+                if(
+                    isset($_GET['nomP']) && !preg_match("/^ *$/", $_GET['nomP']) &&
+                    isset($_GET['quantite']) && preg_match("/^[0-9]+$/", $_GET['quantite']) &&
+                    isset($_GET['prix']) && preg_match("/^[0-9]+\.?[0-9]*$/", $_GET['prix']) &&
+                    isset($_GET['idProduit']) && preg_match("/^[0-9]+$/", $_GET['idProduit'])
+                ){
+                    if ($m->produitInDatabase($_GET['idProduit'])){
+                        $data = [
+                            "nom" => $_GET['nomP'],
+                            "quantite" => $_GET['quantite'],
+                            "prix" => $_GET['prix'],
+                            "id" => $_GET['idProduit']
 
+                        ];
+                        $this->render("modification",$data);
+                    }
+                }
+
+            }
+        }
+        header('Location: index.php?controller=list&action=catalogue');
+    }
     public function action_default()
     {
         $this->action_catalogue();

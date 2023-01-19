@@ -30,7 +30,7 @@ a{
     display: flex;
     flex-direction: column;
 }
-.deconnexion,.catalogue{
+.deconnexion,.catalogue,.EspaceC,.accueil,.connexion,.inscription{
     border: 0;
     border-radius: 30px;
     padding: 20px 30px;
@@ -44,13 +44,28 @@ a{
 .catalogue{
     background-color: #007BFF;
 }
+.connexion{
+    background-color: #D9D9D9;
+    color: #000;
+}
+.EspaceC,.accueil{
+    background-color: #007BFF;
+    color: #FFF;
+}
 .deconnexion{
     background-color: #E62E2E;
+    color: #FFF;
 }
+
+.inscription{
+    background-color: #2EE65D;
+    color: #000;
+}
+
 
 /* Media Queries */
 
-@media (max-width: 1250px) {
+@media (max-width: 1300px) {
     .gauche{
         flex-direction: row;
         align-items: center;
@@ -59,9 +74,8 @@ a{
     .liens{
         flex-direction: row;
     }
-    .catalogue, .deconnexion{
-        margin-bottom: 0px;
-        margin-right: 20px;
+    .catalogue, .deconnexion,.inscription,.connexion{
+        margin-right: 10px;
         padding: 15px 15px;
         width: auto;
     }

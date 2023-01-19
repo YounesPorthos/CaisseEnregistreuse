@@ -12,14 +12,26 @@
 <body>
 <div class="corp">
     <nav class="gauche">
-        <img src="Content/image/logo.png" alt="" width="252" height="240">
+        <a href="index.php?controller=list&action=catalogue"><img src="Content/image/logo.png" alt="" width="252" height="240"></a>
         <div class="liens">
-            <a href='index.php?controller=list&action=catalogue'class="catalogue">
-                Catalogue
-            </a>
-            <a href='index.php?controller=auth&action=deconnexion'class="deconnexion">
-                Se Deconnecter
-            </a>
+
+            <?php if(isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Client') : ?>
+                <a href='index.php?controller=list&action=catalogue'class="catalogue">Catalogue</a>
+            <?php endif ?>
+            <?php if(isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Membre') : ?>
+                <a href="index.php?controller=affichage&action=hub" class="accueil"> Accueil</a>
+            <?php endif ?>
+            <?php if(isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Admin') : ?>
+                <a href="index.php?controller=affichage&action=hub" class="accueil"> Accueil</a>
+            <?php endif ?>
+            <?php if(! isset($_COOKIE['id'])) : ?>
+                <a href="index.php?controller=affichage&action=inscr" class="inscription">Inscription</a>
+                <a href="index.php?controller=affichage&action=connexion" class="connexion">Connexion</a>
+            <?php endif ?>
+            <?php if(isset($_COOKIE['id'])) : ?>
+                <a href="index.php?controller=auth&action=deconnexion" class="deconnexion"> Deconnexion </a>
+            <?php endif ?>
+
         </div>
 
     </nav>

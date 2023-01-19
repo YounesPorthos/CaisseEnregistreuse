@@ -78,7 +78,6 @@ require_once("./Utils/Article.php");
                 header('Location: index.php?controller=list&action=catalogue');
 
             }
-
             else{
                 $data = [
                     "Ajout" => false
@@ -87,7 +86,7 @@ require_once("./Utils/Article.php");
             }
 
         }
-
+        header('Location: index.php?controller=list&action=catalogue');
     }
 
     public function action_inscriptionMembre(){
@@ -118,42 +117,83 @@ require_once("./Utils/Article.php");
             }
         }
         else{
-            echo "<script> alert('Pas admin')</script>";
+            header('Location: index.php?controller=list&action=catalogue');
         }
     }
 
-    public function action_vente(){
+    public function action_vente()
+        // diviser le code en plusieurs parties (illisible mdrr)
+    {
         session_start();
         $m = Model::getModel();
-        if(isset($_GET['Somme'])){
-            $infoV = [];
-            $infoV['Somme'] = $_GET['Somme'];
-            // si nous avons un idClient on l'ajoute dans les infos de vente sinon on met "null"
-            if(isset($_GET['idCl'])){
-                $infoV['idU'] = $_GET['idCl'];
-                $m->updatePoints($_GET['idCl'], round($_GET['Somme'] * 2));
+        if (isset($_COOKIE['Role'])) {
+            if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {
+                if (isset($_GET['Somme']) and isset($_SESSION['Articles']) and isset($_GET['idCl'])) {
+                    $infoV = [];
+                    $infoV['Somme'] = $_GET['Somme'];
+                    // si nous avons un idClient on l'ajoute dans les infos de vente sinon on met "null"
+                    $infoV['idU'] = $_GET['idCl'];
+                    if ($_GET['idCl'] !== -1) {
+                        $pts = $m->getPoints($_GET['idCl']);
+                        if ($pts !== 75) {
+                            if (($m->getPoints($_GET['idCl']) + $_GET['Somme'] * 2) < 75) {
+                                $m->updatePoints($_GET['idCl'], round($_GET['Somme'] * 2));
+                            } else {
+                                $pointRestant = 75 - $pts;
+                                $m->updatePoints($_GET['idCl'], $pointRestant);
+                            }
+                        }
+                    }
+                    $tabArticle = $_SESSION['Articles']->getPanier();
+                    $total = 0;
+                    foreach ($tabArticle as $artPan) {
+                        $m->updateQuantite($artPan['Compteur'], $artPan['id']);
+                        $total += $artPan['Compteur'];
+                    }
+                    $infoV['Qte'] = $total;
+                    // ajout de la vente dans la base de données
+                    $m->setVente($infoV);
+                    header('Location: ./index.php?controller=list&action=panier&reset=Reset');
+                }
             }
-            $tabArticle = $_SESSION['Articles']->getPanier();
-            $total = 0;
-            foreach ($tabArticle as $artPan){
-                $m->updateQuantite($artPan['Compteur'],$artPan['id']);
-                $total += $artPan['Compteur'];
-            }
-            $infoV['Qte'] = $total;
-            // ajout de la vente dans la base de données
-            $m->setVente($infoV);
-
-
-            header('Location: ./index.php?controller=list&action=panier&reset=Reset');
-
         }
+        header('Location: ./index.php?controller=list&action=panier&reset=Reset');
     }
+     public function action_modification(){
+// verifie les conditions d'ajout
+         if(isset($_COOKIE['Role'])) {
+             if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {
+                 if (
+                     // ajouter une condition pour le role
+                     isset($_POST['nomP']) && !preg_match("/^ *$/", $_POST['nomP']) &&
+                     isset($_POST['quantite']) && preg_match("/^[0-9]+$/", $_POST['quantite']) &&
+                     isset($_POST['prix']) && preg_match("/^[0-9]+\.?[0-9]*$/", $_POST['prix']) &&
+                     isset($_GET['idProduit']) && preg_match("/^[0-9]+$/", $_GET['idProduit'])
 
-    public function action_default(){
+                 ) {
+                     $info = [];
+                     if (isset($_FILES['image']) && preg_match("/^image/", $_FILES['image']['type'])) {
+                         $dir = "Content/image";
+                         $tmp_name = $_FILES["image"]['tmp_name'];
+                         $nom = basename($_FILES["image"]['name']);
+                         $chemin = "$dir/$nom";
+                         $info['chemin'] = $chemin;
+                         move_uploaded_file($tmp_name, $chemin);
+                     }
+                     $m = Model::getModel();
+                     $cle = ['nomP', 'quantite', 'prix'];
+                     foreach ($cle as $marqueur) {
+                         $info[$marqueur] = $_POST[$marqueur];
+                     }
+                     $m->updateProduit($info, $_GET['idProduit']);
+                 }
+             }
+         }
+         header('Location: index.php?controller=list&action=catalogue');
+
+     }
+     public function action_default(){
         $this->action_add();
     }
-
 }
-
-
 ?>

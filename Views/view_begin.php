@@ -23,7 +23,6 @@
                 <?php if(isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Membre') : ?>
                     <a href="index.php?controller=affichage&action=hub" class="accueil"> Accueil</a>
                 <?php endif ?>
-
                 <?php if(isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Admin') : ?>
                     <a href="index.php?controller=affichage&action=hub" class="accueil"> Accueil</a>
                 <?php endif ?>

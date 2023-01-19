@@ -29,6 +29,13 @@
             $tab = $req->fetch(PDO::FETCH_NUM);
             return $tab[0];
         }
+        public function getInfos($id){
+            $req = $this->bd->prepare("SELECT * From Utilisateur WHERE idU = :id");
+            $req->bindValue(":id",$id);
+            $req->execute();
+            $tab = $req->fetch(PDO::FETCH_ASSOC);
+            return $tab;
+        }
 
         public function setProduit($infoP){
             $req = $this->bd->prepare("INSERT INTO produits (idProduit,nomP,quantite,prix,image)VALUES (DEFAULT,:nomP,:quantite,:prix,:chemin)");
@@ -58,13 +65,6 @@
             $req->execute();
         }
 
-        public function getInfos($id){
-            $req = $this->bd->prepare("SELECT * From Utilisateur WHERE idU = :id");
-            $req->bindValue(":id",$id);
-            $req->execute();
-            $tab = $req->fetch(PDO::FETCH_ASSOC);
-            return $tab;
-        }
         public function getHistoriqueAchat($id){
             $req = $this->bd->prepare("SELECT * From ventes WHERE idU = :id");
             $req->bindValue(":id",$id);
@@ -83,7 +83,6 @@
         }
         public function setVente($infoV){
             $req = $this->bd->prepare('INSERT INTO Ventes VALUES (DEFAULT,now(),:idU,:Somme,:quantite)');
-            $cle = ['idU','Somme'];
             if($infoV['idU'] == -1){
                 $req->bindValue(":idU",NULL);
             }
@@ -108,6 +107,12 @@
             $req->execute();
             return $req->fetch(PDO::FETCH_NUM) !== false;
         }
+        public function produitInDatabase($id){
+            $req = $this->bd->prepare("SELECT * From produits WHERE idProduit = :id");
+            $req->bindValue(":id",$id);
+            $req->execute();
+            return $req->fetch(PDO::FETCH_NUM) !== false;
+        }
 
         public function getPassword($id){
             $req = $this->bd->prepare("SELECT mdp From Utilisateur WHERE idU = :id");
@@ -128,16 +133,30 @@
             $reqAnn = $this->bd->prepare("SELECT YEAR(now())");
             $reqAnn->execute();
             $annee = $reqAnn->fetch(PDO::FETCH_NUM);
-
             $reqMois = $this->bd->prepare("SELECT MONTH(now())");
             $reqMois->execute();
-            $mois = $reqAnn->fetch(PDO::FETCH_NUM);
-
-            $req = $this->bd->prepare("SELECT prix,DateV,qte FROM Ventes WHERE DateV REGEXP '^$annee[0]-$mois[0]'");
+            $mois = $reqMois->fetch(PDO::FETCH_NUM);
+            $req = $this->bd->prepare("SELECT prix,DateV,qte FROM Ventes WHERE DateV REGEXP '^$annee[0]-0?$mois[0]'");
             $req->execute();
-
             return $req->fetchAll(PDO::FETCH_ASSOC);
-
+        }
+        public function getStock(){
+            $req = $this->bd->prepare("SELECT sum(quantite) From Produits");
+            $req->execute();
+            $tab = $req->fetch(PDO::FETCH_NUM);
+            return $tab[0];
+        }
+        public function getStockVendu(){
+            $reqAnn = $this->bd->prepare("SELECT YEAR(now())");
+            $reqAnn->execute();
+            $annee = $reqAnn->fetch(PDO::FETCH_NUM);
+            $reqMois = $this->bd->prepare("SELECT MONTH(now())");
+            $reqMois->execute();
+            $mois = $reqMois->fetch(PDO::FETCH_NUM);
+            $req = $this->bd->prepare("SELECT sum(qte) as TotalVendu, sum(prix) as RecetteMensuel FROM Ventes WHERE DateV REGEXP '^$annee[0]-0?$mois[0]'");
+            $req->execute();
+            $tab = $req->fetch(PDO::FETCH_ASSOC);
+            return $tab;
         }
         public function getPoints($id){
             $req = $this->bd->prepare("SELECT pointF From promo where idU = :id");
@@ -148,8 +167,14 @@
         }
 
         public function updateProduit($infoP,$id){
-            $req = $this->bd->prepare("UPDATE produits SET nomP = :nomP, quantite = :quantite, prix = :prix WHERE idProduit = :id");
-            $cle = ['nomP','quantite','prix'];
+            if(isset($infoP['chemin'])){
+                $req = $this->bd->prepare("UPDATE produits SET nomP = :nomP, quantite = :quantite, prix = :prix, image = :chemin WHERE idProduit = :id");
+                $cle = ['nomP','quantite','prix','chemin'];
+            }
+            else{
+                $req = $this->bd->prepare("UPDATE produits SET nomP = :nomP, quantite = :quantite, prix = :prix WHERE idProduit = :id");
+                $cle = ['nomP','quantite','prix'];
+            }
             foreach ($cle as $marqueur){
                 $req->bindValue(':'.$marqueur,$infoP[$marqueur]);
             }
@@ -157,9 +182,8 @@
             $req->execute();
 
         }
-
-
     }
+
 
 
 ?>

@@ -15,6 +15,7 @@
         <?php endforeach ?>
     </div>
     <div class="panier-validation">
+
         <div class="panier">
             <div class="listeArticle">
 
@@ -33,6 +34,10 @@
                 </table>
             </div>
             <div class="payer">
+                <form method="post">
+                    <input type="text" name="idCl" placeholder="Identifiant du client">
+                    <input type="submit" value="Entrer" >
+                </form>
                 Prix à Payer : <?= $Somme ?>€
             </div>
         </div>
@@ -40,16 +45,9 @@
             <span>Valider</span>
             <i class="fa-solid fa-check"></i>
         </a>
-        <form method="post">
-            <input type="text" name="idCl">
-            <input type="submit" value="Entrer" placeholder="Identifiant du client">
-        </form>
+
 
     </div>
 </div>
-
-
-<h1>S'identifier</h1>
-
 
 <?php require_once "view_end.php" ?>
