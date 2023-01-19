@@ -27,7 +27,11 @@ a{
 #droite a{
     margin-left: 10px;
 }
-
+.supression{
+    padding: 15px;
+    border-radius: 30px;
+    text-align: center;
+}
 .inscription,.connexion,.deconnexion,.accueil,.EspaceC,.validation{
     border: 0;
     border-radius: 30px;
@@ -47,7 +51,7 @@ a{
     background-color: #007BFF;
     color: #FFF;
 }
-.deconnexion{
+.deconnexion,.supression{
     background-color: #E62E2E;
     color: #FFF;
 }

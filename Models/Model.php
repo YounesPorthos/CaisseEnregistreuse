@@ -93,7 +93,11 @@
             $req->bindValue(":quantite",$infoV['Qte']);
             $req->execute();
         }
-
+        public function delProduit($id){
+            $req = $this->bd->prepare("DELETE From Produits WHERE idProduit = :id");
+            $req->bindValue(":id",$id);
+            $req->execute();
+        }
         public function getProduits(){
             $req = $this->bd->prepare("SELECT * FROM Produits");
             $req->execute();

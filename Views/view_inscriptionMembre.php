@@ -12,11 +12,9 @@
             <input type="text" name="nom" placeholder="nom">
             <input type="text" name="prenom" placeholder="prenom">
         </div>
-        <input type="text" name="idU" placeholder="Identifiant">
+        <input type="number" name="idU" placeholder="Numero Etudiant">
         <input type="password" name="mdp" placeholder="Mot de Passe">
         <input type="submit" value="Valider" class="validation">
-
     </form>
-
 </div>
 <?php require "view_end.php"?>

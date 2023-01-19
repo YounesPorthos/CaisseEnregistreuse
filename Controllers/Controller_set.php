@@ -34,15 +34,10 @@ require_once("./Utils/Article.php");
                     }
                     $info['chemin'] = $chemin;
                     $m->setProduit($info);
-                    $data = [
-                        "Ajout" => true
-                    ];
-                    $this->render("add", $data);
-                } else {
-                    $data = [
-                        "Ajout" => false
-                    ];
-                    $this->render("add", $data);
+                    echo "<script> alert('ajout reussi') </script>";
+                    $this->render("add");
+                }else {
+                    $this->render("add");
                 }
             }
             else{
@@ -51,7 +46,19 @@ require_once("./Utils/Article.php");
         }
 
     }
+    public function action_del()
+    {
+        if (isset($_COOKIE['Role'])) {
+            if ($_COOKIE['Role'] == "Admin" || $_COOKIE['Role'] == "Membre") {
+                if(isset($_GET['idProduit']) && preg_match("/^[0-9]+$/", $_GET['idProduit'])){
+                    $m = Model::getModel();
+                    $m->delProduit($_GET['idProduit']);
 
+                }
+            }
+        }
+        header('Location: index.php?controller=list&action=catalogue');
+    }
     public function action_inscription(){
         if(! isset($_COOKIE['id'])){
             if(
@@ -59,7 +66,6 @@ require_once("./Utils/Article.php");
                 isset($_POST['prenom']) && ! preg_match("/^ *$/", $_POST['prenom']) &&
                 isset($_POST['nom']) && ! preg_match("/^ *$/", $_POST['nom']) &&
                 isset($_POST['mdp']) && preg_match("/^.{6}.*$/", $_POST['mdp'])
-
             ){
                 $info = [];
                 $m = Model::getModel();
@@ -70,9 +76,6 @@ require_once("./Utils/Article.php");
                 $info['mdp'] = password_hash($_POST['mdp'], PASSWORD_DEFAULT); // crypte le mot de passe
                 var_dump($info['mdp']);
                 $m->setClient($info);
-                $data = [
-                    "Role" => $m->getRole($_POST['idU']) // accès au infos du client à ajouter
-                ];
                 setcookie("id",$_POST['idU'],time() + 3600, "/");
                 setcookie("Role",$m->getRole($_POST['idU']), time() + 3600, "/");
                 header('Location: index.php?controller=list&action=catalogue');
