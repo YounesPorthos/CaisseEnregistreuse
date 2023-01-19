@@ -1,10 +1,20 @@
 
 <?php require "view_begin.php" ?>
+<link rel="stylesheet" href="Content/style/connexion.css">
 
-    <form action="index.php?controller=auth&action=authentification" method="post">
-        <input type="text" name="id" placeholder="Identifiant">
-        <input type="password" name="mdp" placeholder="Mot de Passe">
-        <input type="submit">
-    </form>
+    <h1>BDE IUT<br> VILLETANEUSE</h1>
+    <div class="form">
+        <div class="BoiteLogin">
+            <form action="index.php?controller=auth&action=authentification" method="post">
+                <h2>Connexion</h2>
+                <label for="">Identifiant</label>
+                <input type="text" id="username" name="id" placeholder="Identifiant"></br>
+                <label for="">Mot de Passe</label>
+                <input type="password" id="password" name="mdp" placeholder="Mot de Passe" "></br>
+                <input type="submit" value="Se Connecter">
+                <p>Vous n'avez pas de compte ? / <a href="index.php?controller=affichage&action=inscr">S'inscrire</a> </p>
+            </form>
+        </div>
+    </div>
 <?php require "view_end.php"?>
 

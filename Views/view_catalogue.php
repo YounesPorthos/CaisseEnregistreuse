@@ -8,7 +8,7 @@
 
     <?php foreach($catalogue as $val) : ?>
 
-        <a href="#" class="Boite" style="background: url( <?= $val['image']?>) no-repeat center center; background-size: contain;">
+        <a href="index.php?controller=affichage&action=modification&nomP=<?= $val['nomP']?>&quantite=<?= $val['Quantite']?>&prix=<?= $val['prix']?>&idProduit=<?= $val['idProduit']?>" class="Boite" style="background: url( <?= $val['image']?>) no-repeat center center; background-size: contain;">
             <div class="infoBoite">
                 <span class="nomA"><p><?= $val['nomP']?></p> <p>Quantité : <?= $val['Quantite']?></p></span>
                 <span class="prix"><?= $val['prix']?>€</span>
@@ -35,4 +35,4 @@
 
 </div>
 
-<?php require "view_end.php"?>
+<?php require "view_end.php"?>]

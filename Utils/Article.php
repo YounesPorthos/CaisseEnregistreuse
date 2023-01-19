@@ -1,7 +1,6 @@
 <?php
 
 namespace Utils;
-
 use \Models\Model;
 
 require_once("./Models/Model.php");
@@ -60,10 +59,6 @@ class Article
         }
 
     }
-
-
-
-
 
 
 }
