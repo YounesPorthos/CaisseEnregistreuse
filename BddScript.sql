@@ -68,7 +68,7 @@ INSERT INTO Produits values(
     "Oreo",
     3,
     1.50,
-    "chem"
+    "Content/image/8211_fb2.jpg"
 );
 
 

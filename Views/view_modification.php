@@ -12,6 +12,7 @@
             <label></label>
             <input type="file" name="image" value="Ajouter une image" class="addImg"><br>
             <input type="submit" value="Modifier">
+            <a href="index.php?controller=set&action=del&idProduit=<?= $id ?>" class="supression"> Suprimer L'article </a>
 
         </form>
         <section>

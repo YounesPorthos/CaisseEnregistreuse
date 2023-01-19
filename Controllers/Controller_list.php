@@ -58,8 +58,6 @@ require_once("Controller.php");
             else{
                 header('Location: index.php?controller=list&action=catalogue');
             }
-
-
         }
         public function action_informations()
         {

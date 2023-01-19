@@ -1,7 +1,8 @@
 <?php require "view_begin.php"; // affichage provisoire à changer plus tard?>
 
 <link rel="stylesheet" href="Content/style/catalogue.css">
-
+<h1>Catalogue</h1>
+<p id="Para">Voici la liste des articles disponibles.</p>
 <div id="Catalogue">
 
 <?php if(isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Membre' || isset($_COOKIE['id']) && $_COOKIE['Role'] == 'Admin') : ?>
@@ -29,6 +30,7 @@
                 <span class="prix"><?= $val['prix']?>€</span>
             </div>
         </div>
+
     <?php endforeach ?>
 
 <?php endif ?>
