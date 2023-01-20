@@ -15,7 +15,9 @@
         <?php endforeach ?>
     </div>
     <div class="panier-validation">
-
+        <?php if (count($Client) !== 0) :?>
+            <h2> <?= $Client['client']['prenom']?> : <?= $Client['points']?> Points</h2>
+        <?php endif ?>
         <div class="panier">
             <div class="listeArticle">
 
@@ -45,6 +47,7 @@
             <span>Valider</span>
             <i class="fa-solid fa-check"></i>
         </a>
+        <a href="index.php?controller=list&action=panier&reset=reset" class="Renitial">Rénitialiser le panier</a>
 
 
     </div>

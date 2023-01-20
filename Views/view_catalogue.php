@@ -37,4 +37,4 @@
 
 </div>
 
-<?php require "view_end.php"?>]
+<?php require "view_end.php"?>
