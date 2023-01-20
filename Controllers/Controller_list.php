@@ -24,19 +24,26 @@ require_once("Controller.php");
                         $art = new Article();
                         $_SESSION['Articles'] = new Article();
                         $_SESSION['idCl'] = -1;
+                        $_SESSION['Clients'] = [];
                     }
+
                     $tab = $_SESSION['Articles']->getArticles();
                     if(isset($_GET['nom'])){
                         // si un article a été selectionné on vérifie si il est possible de l'ajouter dans le panier
                         if(! $_SESSION['Articles']->addArticle($_GET['nom'],$_GET['id'])){
+
                             header('Location: index.php?controller=list&action=panier');
                         }
                     }
+                    $infoCl = [];
                     // si l'identifiant entrée est valide on l'ajoute dans une session
                     if(isset($_POST['idCl'])){
                         $m = Model::getModel();
                         if($m->inDatabase($_POST['idCl'])){
                             $_SESSION['idCl'] = $_POST['idCl'];
+                            $infoCl['client'] = $m->getInfos($_SESSION['idCl']);
+                            $infoCl['points'] = $m->getPoints($_SESSION['idCl']);
+                            $_SESSION['Clients'] = $infoCl;
                         }
                         else{
                             $_SESSION['idCl'] = -1;
@@ -47,7 +54,8 @@ require_once("Controller.php");
                         "Articles" => $tab,
                         "Panier" => $_SESSION['Articles']->getPanier(),
                         "Somme" => $_SESSION['Articles']->getSomme(),
-                        "idClient" => $_SESSION['idCl']
+                        "idClient" => $_SESSION['idCl'],
+                        "Client" => $_SESSION['Clients']
                     ];
                     $this->render("panier",$data);
                 }

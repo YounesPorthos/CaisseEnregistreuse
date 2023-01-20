@@ -17,4 +17,5 @@
         </form>
 
     </div>
+</div>
 <?php require "view_end.php"?>

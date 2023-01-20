@@ -1,6 +1,10 @@
 
 /*Partie Gauche*/
 
+body{
+    display: flex;
+    flex-direction: column;
+}
 .corp{
     display: flex;
     gap: 17%;

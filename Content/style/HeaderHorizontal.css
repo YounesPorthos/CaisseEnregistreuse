@@ -27,7 +27,7 @@ a{
 #droite a{
     margin-left: 10px;
 }
-.supression{
+.supression,.Renitial{
     padding: 15px;
     border-radius: 30px;
     text-align: center;
@@ -47,7 +47,7 @@ a{
     background-color: #D9D9D9;
     color: #000;
 }
-.EspaceC,.accueil{
+.EspaceC,.accueil,.Renitial{
     background-color: #007BFF;
     color: #FFF;
 }

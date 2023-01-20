@@ -35,10 +35,8 @@ require_once("./Utils/Article.php");
                     $info['chemin'] = $chemin;
                     $m->setProduit($info);
                     echo "<script> alert('ajout reussi') </script>";
-                    $this->render("add");
-                }else {
-                    $this->render("add");
                 }
+                $this->render("add");
             }
             else{
                 header('Location: index.php?controller=list&action=catalogue');
@@ -61,14 +59,16 @@ require_once("./Utils/Article.php");
     }
     public function action_inscription(){
         if(! isset($_COOKIE['id'])){
+            $m = Model::getModel();
             if(
-                isset($_POST['idU']) && ! preg_match("/^ *$/", $_POST['idU']) &&
+                isset($_POST['idU']) && preg_match("/^121[0-9]{5}$/", $_POST['idU']) &&
                 isset($_POST['prenom']) && ! preg_match("/^ *$/", $_POST['prenom']) &&
                 isset($_POST['nom']) && ! preg_match("/^ *$/", $_POST['nom']) &&
-                isset($_POST['mdp']) && preg_match("/^.{6}.*$/", $_POST['mdp'])
+                isset($_POST['mdp']) && preg_match("/^.{6}.*$/", $_POST['mdp']) &&
+                ! $m->inDatabase($_POST['idU'])
+
             ){
                 $info = [];
-                $m = Model::getModel();
                 $cle = ['idU','prenom','nom','mdp'];
                 foreach($cle as $marqueur){
                     $info[$marqueur] = $_POST[$marqueur];
@@ -82,42 +82,37 @@ require_once("./Utils/Article.php");
 
             }
             else{
-                $data = [
-                    "Ajout" => false
-                ];
-                $this->render("inscription",$data);
+                echo "<script> alert('Echec ajout') </script>";
+                $this->render("inscription");
             }
-
         }
         header('Location: index.php?controller=list&action=catalogue');
     }
 
     public function action_inscriptionMembre(){
         if(isset($_COOKIE['Role']) && $_COOKIE['Role'] == "Admin"){
+            $m = Model::getModel();
             if(
                 isset($_POST['idU']) && ! preg_match("/^ *$/", $_POST['idU']) &&
                 isset($_POST['prenom']) && ! preg_match("/^ *$/", $_POST['prenom']) &&
                 isset($_POST['nom']) && ! preg_match("/^ *$/", $_POST['nom']) &&
-                isset($_POST['mdp']) && preg_match("/^.{6}.*$/", $_POST['mdp'])
-
+                isset($_POST['mdp']) && preg_match("/^.{6}.*$/", $_POST['mdp']) &&
+                ! $m->inDatabase($_POST['idU'])
             ){
                 $info = [];
-                $m = Model::getModel();
                 $cle = ['idU','prenom','nom','mdp'];
                 foreach($cle as $marqueur){
                     $info[$marqueur] = $_POST[$marqueur];
                 }
                 $info['mdp'] = password_hash($_POST['mdp'], PASSWORD_DEFAULT); // crypte le mot de passe
-                var_dump($info['mdp']);
                 $m->setMembre($info);
 
-                echo "<p style='color: green'>Ajout reussi</p>";
-                $this->render("hub");
+                echo "<script> alert('Ajout réussi') </script>";
             }
             else{
-                echo "<p style='color: red'>Echec Ajout</p>";
-                $this->render("hub");
+                echo "<script> alert('Echec Ajout') </script>";
             }
+            $this->render("hub");
         }
         else{
             header('Location: index.php?controller=list&action=catalogue');
@@ -125,7 +120,6 @@ require_once("./Utils/Article.php");
     }
 
     public function action_vente()
-        // diviser le code en plusieurs parties (illisible mdrr)
     {
         session_start();
         $m = Model::getModel();

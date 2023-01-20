@@ -4,8 +4,6 @@ DROP table if exists Utilisateur;
 DROP table if exists Ventes;
 
 
-/* Remplacer les serial par des int (juste pour le test)*/
-
 CREATE table Produits(
     idProduit SERIAL,
     nomP Varchar(50),
@@ -14,9 +12,9 @@ CREATE table Produits(
     image varchar(255),
     primary key (idProduit)
 );
-SELECT "Produits";
+
 CREATE table Utilisateur(
-        idU SERIAL,
+        idU int,
         prenom Varchar(50),
         nom Varchar(50),
         mdp varchar(255),
@@ -33,31 +31,32 @@ CREATE table Ventes(
     primary key (numCommande)
 );
 
-SELECT "ventes";
 CREATE table Promo(
-    idU SERIAL,
+    idU int,
     pointF integer,
     foreign key (idU) references Utilisateur(idU)
 );
-SELECT "Promo";
-
 
 INSERT INTO Utilisateur values (
-    DEFAULT,
+    12102642,
     "Amadou",
     "Dia",
     "$2y$10$XkvJ5T.e3IjKz4AT.KSyHOtTLDOmyoVuQvjLassst8ApoBWYaCbyy",
     "Client"
 );
 INSERT INTO Utilisateur values (
-    DEFAULT,
+    2,
     "Mamadou",
     "Dia",
     "$2y$10$XkvJ5T.e3IjKz4AT.KSyHOtTLDOmyoVuQvjLassst8ApoBWYaCbyy",
     "Admin"
 );
+INSERT INTO Promo values (
+      12102642,
+      0
+);
 INSERT INTO Utilisateur values (
-    DEFAULT,
+    3,
     "Ahmed",
     "Dia",
     "$2y$10$XkvJ5T.e3IjKz4AT.KSyHOtTLDOmyoVuQvjLassst8ApoBWYaCbyy",
@@ -65,11 +64,49 @@ INSERT INTO Utilisateur values (
 );
 INSERT INTO Produits values(
     DEFAULT,
-    "Oreo",
-    3,
-    1.50,
-    "Content/image/8211_fb2.jpg"
+    "Kinder Bueno",
+    30,
+    0.80,
+    "Content/image/kinder.jpg"
 );
+INSERT INTO Produits values(
+    DEFAULT,
+    "Caprisun",
+    30,
+    0.50,
+    "Content/image/Caprisun.jpg"
+);
+INSERT INTO Produits values(
+    DEFAULT,
+    "coca",
+    30,
+    0.80,
+    "Content/image/coca.jpg"
+);
+
+INSERT INTO Produits values(
+    DEFAULT,
+    "Cristaline",
+    30,
+    0.50,
+    "Content/image/Caprisun.jpg"
+);
+
+INSERT INTO Produits values(
+    DEFAULT,
+    "Fanta 33cl",
+    30,
+    0.80,
+    "Content/image/Caprisun.jpg"
+);
+INSERT INTO Produits values(
+    DEFAULT,
+    "Kit Kat",
+    30,
+    0.70,
+    "Content/image/kitkat.jpg"
+);
+
 
 
 

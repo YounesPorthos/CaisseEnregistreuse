@@ -79,12 +79,14 @@ a.validation{
     font-size: 32px;
     color: white;
 }
-
+h2{
+    margin-bottom: 20px;
+}
 .panier{
     background-color: #444444;
     width: 100%;
     height: 500px;
-    margin-top: 70px;
+    margin-top: 30px;
     border-radius: 5px;
     color: white;
     display: flex;

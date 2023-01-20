@@ -6,7 +6,7 @@
         <ul>
             <li>Total Produits Vendu : <?= $Bilan['TotalVendu']?> produits vendu ce mois.</li>
             <li>Total Produits en Stock : <?= $Stock ?> Produits en stock. <strong>Voir le <a href="index.php?controller=list&action=catalogue">catalogue</a> pour d'informations</strong></li>
-            <li>RecetteMensuel : <?= round($Bilan['RecetteMensuel'])?>€</li>
+            <li>RecetteMensuel : <?= round($Bilan['RecetteMensuel'],2)?>€</li>
         </ul>
         <div class="historique">
             <ul>

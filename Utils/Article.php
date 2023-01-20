@@ -6,13 +6,15 @@ use \Models\Model;
 require_once("./Models/Model.php");
 class Article
 {
-    private $articles;
+    private $articles = [];
     private $panier;
     private $somme;
 
     public function __construct(){
         $m = Model::getModel();
-        $this->articles = $m->getProduits();
+        foreach ($m->getProduits() as $val){
+            $this->articles[$val["idProduit"] - 1] = $val;
+        }
         $this->panier = [];
         $this->somme = 0;
     }
